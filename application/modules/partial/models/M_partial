@@ -1,0 +1,42 @@
+<?php
+	defined('BASEPATH') OR exit('no direct script access allowed');
+	
+	class M_pengeluaran extends CI_Model {
+		
+		public function __construct(){
+			parent::__construct();
+		}
+		
+		public function getCabang() {
+			
+			$result = null;
+			$this->db->select('a.*');
+			$this->db->from('outlet a');
+			$this->db->where('outlet_id', $this->session->userdata('logged_in')['OUTLET_ID']);
+			$this->db->limit(1);
+			$query = $this->db->get();
+			if ($query->num_rows() > 0) {
+				$row = $query->result_array();
+				$result = $row[0];
+			}
+			
+			return $result;
+		}
+		
+		public function getCustomer($phone) {
+			
+			$result = null;
+			$this->db->select('a.*');
+			$this->db->from('customers a');
+			$this->db->where('phone', $phone);
+			$this->db->limit(1);
+			$query = $this->db->get();
+			if ($query->num_rows() > 0) {
+				$row = $query->result_array();
+				$result = $row[0];
+			}
+			
+			return $result;
+		}
+		
+	}

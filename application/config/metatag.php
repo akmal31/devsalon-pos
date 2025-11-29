@@ -1,0 +1,106 @@
+<?php 
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+$config['title']['home'] = "Beranda";
+$config['title']['tentangkami'] = "Tentang Kami";
+$config['title']['mobil'] = "Cari Asuransi Mobil";
+$config['title']['motor'] = "Cari Asuransi Motor";
+$config['title']['truk'] = "Cari Asuransi Truk";
+$config['title']['properti'] = "Cari Asuransi Properti";
+$config['title']['kargo'] = "Cari Asuransi Kargo";
+$config['title']['travel'] = "Cari Asuransi Travel";
+$config['title']['kesehatan'] = "Cari Asuransi Kesehatan";
+$config['title']['rekanan'] = "Rekanan";
+$config['title']['klaim'] = "Klaim Asuransi";
+$config['title']['faq'] = "FAQ";
+$config['title']['berita'] = "Berita & Promo";
+$config['title']['kontak'] = "Kontak";
+$config['title']['profil'] = "Profil";
+$config['title']['perbandingan'] = "Perbandingan Asuransi";
+
+$config['meta']['title']['home'] = "GOPREMI.COM | GRATIS Bandingkan Premi | Terbaik & Terjamin";
+$config['meta']['title']['tentangkami'] = "GOPREMI.COM | Cara Asik Berasuransi | Berpengalaman lebih dari 10 Tahun";
+$config['meta']['title']['mobil'] = "GOPREMI.COM | Anti PHP 100% | Garansi Klaim Support";
+$config['meta']['title']['motor'] = "GOPREMI.COM | Jual Bukti, Bukan Janji | Bandingkan aja";
+$config['meta']['title']['truk'] = "GOPREMI.COM | Kualitas Terjamin | Berpengalaman lebih dari 10 Tahun";
+$config['meta']['title']['properti'] = "GOPREMI.COM | Anti Galau 100% | Kenyamanan Dan Kemudahan itu Pasti";
+$config['meta']['title']['kargo'] = "GOPREMI.COM | Gak Ribet | Murah & Mudah";
+$config['meta']['title']['travel'] = "GOPREMI.COM | Klik aja | Semuanya mungkin";
+$config['meta']['title']['kesehatan'] = "GOPREMI.COM | Jangan Coba-Coba | Kesehatan Keluarga Anda Sangat Berharga";
+$config['meta']['title']['rekanan'] = "GOPREMI.COM | Mitra Kami | Terdaftar & Diawasi OJK";
+$config['meta']['title']['klaim'] = "GOPREMI.COM | 24 Jam Claim Service | Cepat & Mudah";
+$config['meta']['title']['faq'] = "GOPREMI.COM | Asuransi Online | Tanya Jawab Tentang Asuransi";
+$config['meta']['title']['berita'] = "GOPREMI.COM | Asuransi Online | Berita & Promo Terkini";
+$config['meta']['title']['kontak'] = "GOPREMI.COM | Asuransi Online | Lokasi";
+$config['meta']['title']['profil'] = "GOPREMI.COM | Asuransi Online | Akun Profil";
+$config['meta']['title']['perbandingan'] = "GOPREMI.COM | Perbandingan Asuransi Online | Komparasi Asuransi Mudah";
+
+$config['meta']['keywords']['home'] = "Asuransi Online, Asuransi Terbaik & Terpecaya, Asuransi Termurah";
+$config['meta']['keywords']['tentangkami'] = "PT Mitra Premindo Perkasa, Konsultan Asuransi, Asuransi Umum";
+$config['meta']['keywords']['mobil'] = "Asuransi Mobil All Risk & TLO Terbaik, Asuransi Mobil Terbaik & Terpercaya, Asuransi Mobil Termurah";
+$config['meta']['keywords']['motor'] = "Asuransi Motor All Risk & TLO Terbaik, Asuransi Motor Terbaik & Terpercaya, Asuransi Motor Termurah";
+$config['meta']['keywords']['truk'] = "Asuransi Truk, Asuransi Truk Terbaik & Terpercaya, Asuransi Truk Termurah";
+$config['meta']['keywords']['properti'] = "Asuransi Property All Risk & Kebakaran, Asuransi Rumah & Bangunan Terbaik, Asuransi Rumah & Bangunan Termurah";
+$config['meta']['keywords']['kargo'] = "Asuransi Pengangkutan Barang, Asuransi Pengangkutan Darat, Laut dan Udara, Asuransi Pengangkutan Termurah";
+$config['meta']['keywords']['travel'] = "Asuransi Perjalanan, Asuransi Perjalanan Terbaik & Terpercaya, Asuransi Perjalanan Termurah";
+$config['meta']['keywords']['kesehatan'] = "Asuransi kesehatan, Asuransi Kesehatan Terbaik & Terpercaya, Asuransi Kesehatan Termurah";
+$config['meta']['keywords']['rekanan'] = "Perusahaan Asuransi Berkualitas, Asuransi Umum Berkualitas, Mitra Gopremi.com";
+$config['meta']['keywords']['klaim'] = "Konsultasi Klaim Asuransi, Lapor Klaim Asuransi, Cara Klaim Asuransi";
+$config['meta']['keywords']['faq'] = "Belajar Asuransi, Tanya Jawab Asuransi, Ilmu Asuransi";
+$config['meta']['keywords']['berita'] = "Berita & Promo Asuransi Terbaik, Berita Asuransi Terbaik, Promo Asuransi Termurah";
+$config['meta']['keywords']['kontak'] = "Alamat Gopremi, PT Mitra Premindo Perkasa, Contact Gopremi";
+$config['meta']['keywords']['profil'] = "Akun Profil, Pesanan Asuransi, List Pesanan Asuransi";
+$config['meta']['keywords']['perbandingan'] = "Perbandingan Asuransi Online, Komparasi Asuransi, Asuransi Termurah";
+
+$config['meta']['description']['home'] = "Bandingkan Premi Asuransi Kamu Sepuasnya, Anti PHP dan Garansi Premi 100%!. Karna Gopremi.com Pilihan Asuransi Terbaikmu.";
+$config['meta']['description']['tentangkami'] = "Bandingkan Premi Asuransi Kamu Sepuasnya, Anti PHP dan Garansi Premi 100%!. Karna Gopremi.com Pilihan Asuransi Terbaikmu.";
+$config['meta']['description']['mobil'] = "Bandingkan Premi Asuransi Kamu Sepuasnya, Anti PHP dan Garansi Premi 100%!. Karna Gopremi.com Pilihan Asuransi Terbaikmu.";
+$config['meta']['description']['motor'] = "Bandingkan Premi Asuransi Kamu Sepuasnya, Anti PHP dan Garansi Premi 100%!. Karna Gopremi.com Pilihan Asuransi Terbaikmu.";
+$config['meta']['description']['truk'] = "Bandingkan Premi Asuransi Kamu Sepuasnya, Anti PHP dan Garansi Premi 100%!. Karna Gopremi.com Pilihan Asuransi Terbaikmu.";
+$config['meta']['description']['properti'] = "Bandingkan Premi Asuransi Kamu Sepuasnya, Anti PHP dan Garansi Premi 100%!. Karna Gopremi.com Pilihan Asuransi Terbaikmu.";
+$config['meta']['description']['kargo'] = "Bandingkan Premi Asuransi Kamu Sepuasnya, Anti PHP dan Garansi Premi 100%!. Karna Gopremi.com Pilihan Asuransi Terbaikmu.";
+$config['meta']['description']['travel'] = "Bandingkan Premi Asuransi Kamu Sepuasnya, Anti PHP dan Garansi Premi 100%!. Karna Gopremi.com Pilihan Asuransi Terbaikmu.";
+$config['meta']['description']['kesehatan'] = "Bandingkan Premi Asuransi Kamu Sepuasnya, Anti PHP dan Garansi Premi 100%!. Karna Gopremi.com Pilihan Asuransi Terbaikmu.";
+$config['meta']['description']['rekanan'] = "Karna Asuransi Bukan Sekedar Sebuah Kertas. Klik Gopremi.com Pilihan Asuransi Terbaikmu.";
+$config['meta']['description']['klaim'] = "Mau Lapor Klaim Tanpa Ribet?. Klik Gopremi.com Pilihan Asuransi Terbaikmu (Garansi Klaim Support 100%)";
+$config['meta']['description']['faq'] = "Bingung Asuransi Apa yang Mau Dipilih. Klik Gopremi.com Solusi Asuransi Terbaikmu";
+$config['meta']['description']['berita'] = "Bingung Asuransi Apa yang Mau Dipilih. Klik Gopremi.com Dapatkan Promo Terbaikmu";
+$config['meta']['description']['kontak'] = "Segera Hubungi Kami di cs@gopremi.com";
+$config['meta']['description']['profil'] = "Profil Pelanggan Asuransi";
+$config['meta']['description']['perbandingan'] = "Membandingkan Daftar Asuransi Terbaik Yang Murah, dan Tepat";
+
+$config['meta']['abstract']['home'] = "Gopremi.com merupakan konsultan & portal asuransi online terpercaya dengan pengalaman lebih dari 10 tahun di bidang asuransi";
+$config['meta']['abstract']['tentangkami'] = "Gopremi.com merupakan konsultan & portal asuransi online terpercaya dengan pengalaman lebih dari 10 tahun di bidang asuransi";
+$config['meta']['abstract']['mobil'] = "Gopremi.com merupakan konsultan & portal asuransi online terpercaya dengan pengalaman lebih dari 10 tahun di bidang asuransi";
+$config['meta']['abstract']['motor'] = "Gopremi.com merupakan konsultan & portal asuransi online terpercaya dengan pengalaman lebih dari 10 tahun di bidang asuransi";
+$config['meta']['abstract']['truk'] = "Gopremi.com merupakan konsultan & portal asuransi online terpercaya dengan pengalaman lebih dari 10 tahun di bidang asuransi";
+$config['meta']['abstract']['properti'] = "Gopremi.com merupakan konsultan & portal asuransi online terpercaya dengan pengalaman lebih dari 10 tahun di bidang asuransi";
+$config['meta']['abstract']['kargo'] = "Gopremi.com merupakan konsultan & portal asuransi online terpercaya dengan pengalaman lebih dari 10 tahun di bidang asuransi";
+$config['meta']['abstract']['travel'] = "Gopremi.com merupakan konsultan & portal asuransi online terpercaya dengan pengalaman lebih dari 10 tahun di bidang asuransi";
+$config['meta']['abstract']['kesehatan'] = "Gopremi.com merupakan konsultan & portal asuransi online terpercaya dengan pengalaman lebih dari 10 tahun di bidang asuransi";
+$config['meta']['abstract']['rekanan'] = "Gopremi.com merupakan konsultan & portal asuransi online terpercaya dengan pengalaman lebih dari 10 tahun di bidang asuransi";
+$config['meta']['abstract']['klaim'] = "Gopremi.com merupakan konsultan & portal asuransi online terpercaya dengan pengalaman lebih dari 10 tahun di bidang asuransi";
+$config['meta']['abstract']['faq'] = "Gopremi.com merupakan konsultan & portal asuransi online terpercaya dengan pengalaman lebih dari 10 tahun di bidang asuransi";
+$config['meta']['abstract']['berita'] = "Gopremi.com merupakan konsultan & portal asuransi online terpercaya dengan pengalaman lebih dari 10 tahun di bidang asuransi";
+$config['meta']['abstract']['kontak'] = "Gopremi.com merupakan konsultan & portal asuransi online terpercaya dengan pengalaman lebih dari 10 tahun di bidang asuransi";
+$config['meta']['abstract']['profil'] = "Gopremi.com merupakan konsultan & portal asuransi online terpercaya dengan pengalaman lebih dari 10 tahun di bidang asuransi";
+$config['meta']['abstract']['perbandingan'] = "Gopremi.com merupakan konsultan & portal asuransi online terpercaya dengan pengalaman lebih dari 10 tahun di bidang asuransi";
+
+$config['meta']['topic']['home'] = "Asuransi Online, Portal Asuransi, Konsultan Asuransi, Asuransi Terbaik, Asuransi Termurah, Asuransi Umum";
+$config['meta']['topic']['tentangkami'] = "Asuransi Online, Portal Asuransi, Konsultan Asuransi, Asuransi Terbaik, Asuransi Termurah, Asuransi Umum";
+$config['meta']['topic']['mobil'] = "Asuransi Mobil, Car Insurance, Asuransi Mobil Terbaik, Asuransi Mobil Termurah, Asuransi All Risk, Total Loss Only";
+$config['meta']['topic']['motor'] = "Asuransi Motor, Motor Insurance, Asuransi Motor Terbaik, Asuransi Motor Termurah";
+$config['meta']['topic']['truk'] = "Asuransi Truk, Truck Insurance, Asuransi Truk Terbaik, Asuransi Truk Termurah";
+$config['meta']['topic']['properti'] = "Asuransi Kebakaran, Asuransi Property All Risk, Asuransi Rumah, Asuransi Toko, Asuransi Kantor, Asuransi Gudang, Asuransi Restoran";
+$config['meta']['topic']['kargo'] = "Cargo Insurance, Asuransi Kargo, Asuransi Pengangkutan, Asuransi Pengangkutan Darat, Asuransi Pengangkutan Laut";
+$config['meta']['topic']['travel'] = "Asuransi Travel, Travel Insurance, Asuransi Travel Terbaik, Asuransi Travel Termurah";
+$config['meta']['topic']['kesehatan'] = "Asuransi Kesehatan, Health Insurance, Asuransi Kesehatan Terbaik, Asuransi Kesehatan Termurah";
+$config['meta']['topic']['rekanan'] = "Asuransi Online, Portal Asuransi, Konsultan Asuransi, Asuransi Terbaik, Asuransi Termurah, Asuransi Umum";
+$config['meta']['topic']['klaim'] = "Asuransi Online, Portal Asuransi, Konsultan Asuransi, Asuransi Terbaik, Asuransi Termurah, Asuransi Umum";
+$config['meta']['topic']['faq'] = "Asuransi Online, Portal Asuransi, Konsultan Asuransi, Asuransi Terbaik, Asuransi Termurah, Asuransi Umum";
+$config['meta']['topic']['berita'] = "Asuransi Online, Portal Asuransi, Konsultan Asuransi, Asuransi Terbaik, Asuransi Termurah, Asuransi Umum";
+$config['meta']['topic']['kontak'] = "Asuransi Online, Portal Asuransi, Konsultan Asuransi, Asuransi Terbaik, Asuransi Termurah, Asuransi Umum";
+$config['meta']['topic']['profil'] = "Asuransi Online, Portal Asuransi, Konsultan Asuransi, Asuransi Terbaik, Asuransi Termurah, Asuransi Umum";
+$config['meta']['topic']['perbandingan'] = "Asuransi Online, Portal Asuransi, Konsultan Asuransi, Asuransi Terbaik, Asuransi Termurah, Asuransi Umum";
+
+?>

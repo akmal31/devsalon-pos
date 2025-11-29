@@ -1,0 +1,6 @@
+[28-Jun-2018 16:23:54 UTC] PHP Parse error:  syntax error, unexpected 'echo' (T_ECHO) in /home/wikaw4t3/public_html/application/modules/home/views/v_home.php on line 39
+[28-Jun-2018 16:45:44 UTC] PHP Parse error:  syntax error, unexpected '=' in /home/wikaw4t3/public_html/application/modules/home/views/v_home.php on line 38
+[07-Aug-2018 08:11:10 UTC] PHP Parse error:  syntax error, unexpected end of file, expecting ']' in /home/wikaw4t3/public_html/application/modules/distributor/views/v_distributor.php on line 49
+[07-Aug-2018 08:40:07 UTC] PHP Parse error:  syntax error, unexpected end of file in /home/wikaw4t3/public_html/application/modules/distributor/views/v_distributor.php on line 133
+[07-Aug-2018 08:40:08 UTC] PHP Parse error:  syntax error, unexpected end of file in /home/wikaw4t3/public_html/application/modules/distributor/views/v_distributor.php on line 133
+[14-Dec-2022 22:25:56 Asia/Jakarta] PHP Fatal error:  Allowed memory size of 33554432 bytes exhausted (tried to allocate 3032024 bytes) in /home/u1135766/public_html/system/database/drivers/mysqli/mysqli_driver.php on line 305

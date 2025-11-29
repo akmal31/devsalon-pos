@@ -1,0 +1,1 @@
+<footer class="footer">SGR Patrol © <?= date('Y')?> Admin </footer>
