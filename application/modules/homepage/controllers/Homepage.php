@@ -212,33 +212,6 @@
 			echo json_encode(["status" => true, "message" => "Komisi berhasil diperbarui"]);
 		}
 
-		public function preview_struk($transaction_id = null)
-		{
-			if(!$transaction_id){
-				show_error("Transaction ID tidak valid");
-				return;
-			}
-
-			// data cabang
-			$this->data['cabang'] = $this->M_homepage->getCabang();
-			// Ambil data transaksi
-			$transaction = $this->M_homepage->getTransactionById($transaction_id);
-			if(!$transaction){
-				show_error("Transaksi tidak ditemukan");
-				return;
-			}
-
-			$this->data['cart']         = $this->M_homepage->getTransactionDetails($transaction_id);
-			$this->data['grand_total']  = $transaction['grand_total'];
-			$this->data['metode_bayar'] = $transaction['payment_method'];
-			$this->data['tips']         = $transaction['tips'];
-			$this->data['uang_bayar']   = $transaction['uang_bayar'];
-			$this->data['kembalian']    = $transaction['kembalian'];
-
-			$this->load->view('preview_struk', $this->data);
-		}
-
-
 		public function config(){
 			$this->data['user_group'] = $this->M_user_group->getFullById($this->session->userdata('logged_in')['USER_GROUP_ID']);
 			$this->load->view('config', $this->data);

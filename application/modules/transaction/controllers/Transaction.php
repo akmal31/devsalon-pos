@@ -79,6 +79,7 @@
 			$data['tips']         = $transaction['tips'];
 			$data['uang_bayar']   = $transaction['uang_bayar'];
 			$data['kembalian']    = $transaction['kembalian'];
+			$data['tanggal_transaksi']    = $transaction['created_at'];
 
 			$this->load->view('preview_struk', $data);
 		}
