@@ -52,8 +52,8 @@
                     <img src="<?= base_url(); ?>assets/img/<?=$cabang['logo'];?>" width="400px">
                     <h1 style="text-align:center;"><?=$cabang['name'];?></h3>
                     <h2 style="text-align:center;"><?=$cabang['address'];?></h4>
-                    <p><?php echo date("j F Y H:i", strtotime($tanggal_transaksi));?></p>
-                    <p>-----------------------------------------</p>
+                    <h3><?php echo date("j F Y H:i", strtotime($tanggal_transaksi));?></h3>
+                    <p>-------------------------------------------------</p>
                 </div>
                 <ul class="listview image-listview">
                 <?php foreach ($cart as $item): ?>
@@ -63,8 +63,8 @@
 
                                 <!-- BAGIAN KIRI -->
                                 <div>
-                                    <header style="font-size:25px;padding:10px;"><?= $item['item_name'] ?></header>
-                                    <header style="font-size:20px;padding-left:10px;">
+                                    <header style="font-size:30px;padding:10px;font-weight:bold;"><?= $item['item_name'] ?></header>
+                                    <header style="font-size:30px;padding-left:10px;">
                                         <?= $item['quantity'] ?> × Rp <?= number_format($item['price'],0,',','.') ?>
                                         <br> Diskon <?= $item['discount'] ?>%
                 </header>
@@ -72,7 +72,7 @@
 
                                 <!-- BAGIAN KANAN (TEMPAT TOTAL) -->
                                 <div style="text-align:right; min-width:110px;">
-                                    <b style="font-size:25px;">
+                                    <b style="font-size:30px;font-weight:bold;">
                                         Rp <?= number_format($item['total'],0,',','.') ?>
                                     </b>
                                 </div>
@@ -81,10 +81,10 @@
                         </a>
                     </li>
                     <div style="text-align:center;">
-                        <p>-----------------------------------------</p>
+                        <p>-------------------------------------------------</p>
                     </div>
                 <?php endforeach; ?>
-                <table style="width:100%; font-size:25px; margin-top:10px; line-height:1.6;">
+                <table style="width:100%; font-size:30px; margin-top:10px; line-height:1.6;">
                     <tr>
                         <td style="text-align:left; font-weight:bold;">Grand Total</td>
                         <td style="text-align:right; font-weight:bold;">
@@ -125,17 +125,17 @@
                 </table>
                 <br>
                 <div style="text-align:center;">
-                    <p>-----------------------------------------</p>
+                    <p>-------------------------------------------------</p>
                 </div>
-                <h2 style="text-align:center;color:black;">
+                <h1 style="text-align:center;color:black;">
                     Terima kasih telah mempercayai perawatan kecantikan Anda <br>kepada <?=$cabang['name'];?>.<br><br>
-                </h2>
+                </h1>
                 <div style="text-align:center;">
-                    <p>-----------------------------------------</p>
+                    <p>-------------------------------------------------</p>
                 </div>
-                <h2 style="text-align:center;color:black;">
+                <h1 style="text-align:center;color:black;">
                     Follow kami di Instagram dan Tiktok <?=$cabang['instagram'];?> untuk promo & info terbaru.
-                </h2>
+                </h1>
             </div>
         </div>
     </div>
