@@ -315,7 +315,7 @@
         .then(res => {
             if(res.status === 'success'){
                 alert('Transaksi berhasil! ID: '+res.transaction_id);
-                window.location.href = '<?= base_url("homepage/preview_struk/") ?>'+res.transaction_id;
+                window.location.href = '<?= base_url("transaction/preview_struk/") ?>'+res.transaction_id;
             } else {
                 alert('Gagal menyimpan transaksi: '+res.message);
             }

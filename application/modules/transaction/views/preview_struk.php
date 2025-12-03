@@ -53,7 +53,7 @@
                     <h1 style="text-align:center;"><?=$cabang['name'];?></h3>
                     <h2 style="text-align:center;"><?=$cabang['address'];?></h4>
                     <h2><?php echo date("j F Y H:i", strtotime($tanggal_transaksi));?></h2>
-                    <p>==================================================================</p>
+                    <div style="height: 5px; background: #000 !important; margin: 6px 0;"></div>
                 </div>
                 <ul class="listview image-listview">
                 <?php foreach ($cart as $item): ?>
@@ -80,9 +80,7 @@
                             </div>
                         </a>
                     </li>
-                    <div style="text-align:center;">
-                        <p>==================================================================</p>
-                    </div>
+                    <div style="height: 5px; background: #000 !important; margin: 6px 0;"></div>
                 <?php endforeach; ?>
                 <table style="width:100%; font-size:35px; margin-top:10px; line-height:1.6;">
                     <tr>
@@ -124,16 +122,9 @@
                     <?php endif; ?>
                 </table>
                 <br>
-                <div style="text-align:center;">
-                    <p>==================================================================</p>
-                </div>
+                <div style="height: 5px; background: #000 !important; margin: 6px 0;"></div>
                 <h1 style="text-align:center;color:black;">
                     Terima kasih telah mempercayai perawatan kecantikan Anda <br>kepada <?=$cabang['name'];?>.<br><br>
-                </h1>
-                <div style="text-align:center;">
-                    <p>==================================================================</p>
-                </div>
-                <h1 style="text-align:center;color:black;">
                     Follow kami di Instagram dan Tiktok <?=$cabang['instagram'];?> untuk promo & info terbaru.
                 </h1>
             </div>
