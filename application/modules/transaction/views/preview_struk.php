@@ -50,10 +50,10 @@
             <div>
                 <div style="text-align:center;color:black">
                     <img src="<?= base_url(); ?>assets/img/<?=$cabang['logo'];?>" width="300px">
-                    <h1 style="text-align:center;"><?=$cabang['name'];?></h3>
-                    <h2 style="text-align:center;"><?=$cabang['address'];?></h4>
-                    <h2><?php echo date("j F Y H:i", strtotime($tanggal_transaksi));?></h2>
-                    <div style="height: 5px; background: #000 !important; margin: 6px 0;"></div>
+                    <h1 style="text-align:center;"><?=$cabang['name'];?></h1>
+                    <h1 style="text-align:center;"><?=$cabang['address'];?></h1>
+                    <h1><?php echo date("j F Y H:i", strtotime($tanggal_transaksi));?></h1>
+                    <p>==================================================================</p>
                 </div>
                 <ul class="listview image-listview">
                 <?php foreach ($cart as $item): ?>
@@ -80,7 +80,9 @@
                             </div>
                         </a>
                     </li>
-                    <div style="height: 5px; background: #000 !important; margin: 6px 0;"></div>
+                    <div style="text-align:center;">
+                        <p>==================================================================</p>
+                    </div>
                 <?php endforeach; ?>
                 <table style="width:100%; font-size:35px; margin-top:10px; line-height:1.6;">
                     <tr>
@@ -122,7 +124,9 @@
                     <?php endif; ?>
                 </table>
                 <br>
-                <div style="height: 5px; background: #000 !important; margin: 6px 0;"></div>
+                <div style="text-align:center;">
+                    <p>==================================================================</p>
+                </div>
                 <h1 style="text-align:center;color:black;">
                     Terima kasih telah mempercayai perawatan kecantikan Anda <br>kepada <?=$cabang['name'];?>.<br><br>
                     Follow kami di Instagram dan Tiktok <?=$cabang['instagram'];?> untuk promo & info terbaru.
