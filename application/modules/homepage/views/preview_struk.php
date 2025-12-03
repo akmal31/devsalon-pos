@@ -4,6 +4,38 @@
 <?php $this->load->view("partial/v_html_header"); ?>
 
 <body>
+<style>
+@media print {
+
+    /* Sembunyikan semua elemen */
+    body * {
+        visibility: hidden;
+    }
+
+    /* Tampilkan hanya printArea */
+    #printArea, #printArea * {
+        visibility: visible;
+    }
+
+    /* Posisi di paling atas halaman saat print */
+    #printArea {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+    }
+
+    /* Sembunyikan button print supaya tidak tampil di PDF */
+    #btnPrint,
+    #btnKembali,
+    .appHeader,
+    .section.mt-1,
+    .menu-bottom {
+        display: none !important;
+    }
+}
+</style>
+
 <?php $this->load->view("partial/v_loader"); ?>
 
 <div class="appHeader bg-primary text-light">
@@ -18,14 +50,18 @@
         <div class="section-title">Ringkasan Transaksi</div>
     </div>
 
-    <div class="section mt-2">
+    <div class="section mt-2" id="printArea">
         <div class="card">
             <div class="card-body">
                 <div style="text-align:center;">
                     <img src="<?= base_url(); ?>assets/img/<?=$cabang['logo'];?>" width="100px">
+                    <h4 style="text-align:center;"><?=$cabang['name'];?></h4>
+                    <p>========================</p>
+                    <h5 style="text-align:center;"><?=$cabang['address'];?></h5>
+                    <p>===============================</p>
+                    <p><?php echo $tanggal_transaksi;//echo date("j F Y H:i", strtotime($tanggal_transaksi));?></p>
+
                 </div>
-                <h4 style="text-align:center;"><?=$cabang['name'];?></h4>
-                <h5 style="text-align:center;"><?=$cabang['address'];?></h5>
                 <ul class="listview image-listview">
                 <?php foreach ($cart as $item): ?>
                     <li>
@@ -113,4 +149,5 @@
 <?php $this->load->view("partial/v_script_bottom"); ?>
 
 </body>
+
 </html>

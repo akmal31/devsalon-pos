@@ -415,7 +415,7 @@
 
     // Lihat Struk
     function openStruk(id) {
-        window.location.href = "<?= base_url('homepage/preview_struk/') ?>" + id;
+        window.location.href = "<?= base_url('transaction/preview_struk/') ?>" + id;
     }
 
     document.addEventListener("input", function(e){

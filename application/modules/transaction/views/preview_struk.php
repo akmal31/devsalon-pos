@@ -4,6 +4,38 @@
 <?php $this->load->view("partial/v_html_header"); ?>
 
 <body>
+<style>
+@media print {
+
+    /* Sembunyikan semua elemen */
+    body * {
+        visibility: hidden;
+    }
+
+    /* Tampilkan hanya printArea */
+    #printArea, #printArea * {
+        visibility: visible;
+    }
+
+    /* Posisi di paling atas halaman saat print */
+    #printArea {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+    }
+
+    /* Sembunyikan button print supaya tidak tampil di PDF */
+    #btnPrint,
+    #btnKembali,
+    .appHeader,
+    .section.mt-1,
+    .menu-bottom {
+        display: none !important;
+    }
+}
+</style>
+
 <?php $this->load->view("partial/v_loader"); ?>
 
 <div class="appHeader bg-primary text-light">
@@ -18,14 +50,16 @@
         <div class="section-title">Ringkasan Transaksi</div>
     </div>
 
-    <div class="section mt-2">
+    <div class="section mt-2" id="printArea">
         <div class="card">
             <div class="card-body">
-                <div style="text-align:center;">
-                    <img src="<?= base_url(); ?>assets/img/<?=$cabang['logo'];?>" width="100px">
+                <div style="text-align:center;color:black">
+                    <img src="<?= base_url(); ?>assets/img/<?=$cabang['logo'];?>" width="200px">
+                    <h3 style="text-align:center;"><?=$cabang['name'];?></h3>
+                    <h4 style="text-align:center;"><?=$cabang['address'];?></h4>
+                    <p><?php echo date("j F Y H:i", strtotime($tanggal_transaksi));?></p>
+                    <p>-----------------------------------------</p>
                 </div>
-                <h4 style="text-align:center;"><?=$cabang['name'];?></h4>
-                <h5 style="text-align:center;"><?=$cabang['address'];?></h5>
                 <ul class="listview image-listview">
                 <?php foreach ($cart as $item): ?>
                     <li>
@@ -34,8 +68,8 @@
 
                                 <!-- BAGIAN KIRI -->
                                 <div>
-                                    <header><?= $item['service_name'] ?></header>
-                                    <footer>
+                                    <header style="font-size:18px;padding:10px;"><?= $item['item_name'] ?></header>
+                                    <footer style="font-size:16px;padding-left:10px;">
                                         <?= $item['quantity'] ?> × Rp <?= number_format($item['price'],0,',','.') ?>
                                         — Diskon <?= $item['discount'] ?>%
                                     </footer>
@@ -43,7 +77,7 @@
 
                                 <!-- BAGIAN KANAN (TEMPAT TOTAL) -->
                                 <div style="text-align:right; min-width:110px;">
-                                    <b style="font-size:14px;">
+                                    <b style="font-size:18px;">
                                         Rp <?= number_format($item['total'],0,',','.') ?>
                                     </b>
                                 </div>
@@ -52,12 +86,21 @@
                         </a>
                     </li>
                 <?php endforeach; ?>
-                <hr>
-                <table style="width:100%; font-size:15px; margin-top:10px; line-height:1.6;">
+                <table style="width:100%; font-size:18px; margin-top:10px; line-height:1.6;">
+                    <tr>
+                        <td colspan=2 style="text-align:center; font-size:16px;">--------------------------------------</td>
+                    </tr>
                     <tr>
                         <td style="text-align:left; font-weight:bold;">Grand Total</td>
                         <td style="text-align:right; font-weight:bold;">
                             Rp <?= number_format($grand_total,0,',','.') ?>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="text-align:left;">Metode</td>
+                        <td style="text-align:right;">
+                            <?= $metode_bayar ?>
                         </td>
                     </tr>
 
@@ -70,7 +113,7 @@
                     </tr>
                     <?php endif; ?>
 
-                    <?php if ($metode_bayar == 1): ?>
+                    <?php if ($metode_bayar == 'cash'): ?>
                     <tr>
                         <td style="text-align:left;">Uang Cash</td>
                         <td style="text-align:right;">
@@ -83,22 +126,19 @@
                             Rp <?= number_format($kembalian,0,',','.') ?>
                         </td>
                     </tr>
-                    <?php else: ?>
-                    <tr>
-                        <td style="text-align:left;">Metode</td>
-                        <td style="text-align:right;">
-                            <?= $metode_bayar == 2 ? "QRIS" : "Debit/Credit Card" ?>
-                        </td>
-                    </tr>
                     <?php endif; ?>
                 </table>
-
-
-                <hr>
-                <h6 style="text-align:center;color:grey;">
+                <br>
+                <div style="text-align:center;">
+                    <p>-----------------------------------------</p>
+                </div>
+                <h6 style="text-align:center;color:grey;font-size:16px;">
                     Terima kasih telah mempercayai perawatan kecantikan Anda kepada <?=$cabang['name'];?>.<br>
                     Follow kami di Instagram dan Tiktok <?=$cabang['instagram'];?> untuk promo & info terbaru.
                 </h6>
+                <div style="text-align:center;">
+                    <p>-----------------------------------------</p>
+                </div>
             </div>
         </div>
     </div>
@@ -113,4 +153,5 @@
 <?php $this->load->view("partial/v_script_bottom"); ?>
 
 </body>
+
 </html>

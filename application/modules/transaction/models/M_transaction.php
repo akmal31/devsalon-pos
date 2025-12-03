@@ -44,9 +44,9 @@
 		}
 
 		public function getTransactionDetails($transaction_id){
-			$this->db->select('td.*, s.name as service_name');
+			$this->db->select('td.*, s.name as item_name');
 			$this->db->from('transaction_details td');
-			$this->db->join('services s', 's.id = td.service_id', 'left');
+			$this->db->join('services s', 's.id = td.reference_id', 'left');
 			$this->db->where('td.transaction_id', $transaction_id);
 			return $this->db->get()->result_array();
 		}
