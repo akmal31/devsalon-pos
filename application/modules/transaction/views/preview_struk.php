@@ -7,6 +7,10 @@
 <style>
 @media print {
 
+    @page {
+        size: 58mm auto; /* 58mm thermal paper */
+        margin: 0;
+    }
     /* Sembunyikan semua elemen */
     body * {
         visibility: hidden;
@@ -45,12 +49,7 @@
 </div>
 
 <div id="appCapsule" class="full-height">
-
-    <div class="section mt-1">
-        <div class="section-title">Ringkasan Transaksi</div>
-    </div>
-
-    <div class="section mt-2" id="printArea">
+    <div id="printArea">
         <div class="card">
             <div class="card-body">
                 <div style="text-align:center;color:black">
@@ -69,10 +68,10 @@
                                 <!-- BAGIAN KIRI -->
                                 <div>
                                     <header style="font-size:18px;padding:10px;"><?= $item['item_name'] ?></header>
-                                    <footer style="font-size:16px;padding-left:10px;">
+                                    <header style="font-size:16px;padding-left:10px;">
                                         <?= $item['quantity'] ?> × Rp <?= number_format($item['price'],0,',','.') ?>
                                         — Diskon <?= $item['discount'] ?>%
-                                    </footer>
+                </header>
                                 </div>
 
                                 <!-- BAGIAN KANAN (TEMPAT TOTAL) -->
@@ -85,11 +84,11 @@
                             </div>
                         </a>
                     </li>
+                    <div style="text-align:center;">
+                        <p>-----------------------------------------</p>
+                    </div>
                 <?php endforeach; ?>
                 <table style="width:100%; font-size:18px; margin-top:10px; line-height:1.6;">
-                    <tr>
-                        <td colspan=2 style="text-align:center; font-size:16px;">--------------------------------------</td>
-                    </tr>
                     <tr>
                         <td style="text-align:left; font-weight:bold;">Grand Total</td>
                         <td style="text-align:right; font-weight:bold;">
@@ -132,7 +131,7 @@
                 <div style="text-align:center;">
                     <p>-----------------------------------------</p>
                 </div>
-                <h6 style="text-align:center;color:grey;font-size:16px;">
+                <h6 style="text-align:center;color:black;font-size:16px;">
                     Terima kasih telah mempercayai perawatan kecantikan Anda kepada <?=$cabang['name'];?>.<br>
                     Follow kami di Instagram dan Tiktok <?=$cabang['instagram'];?> untuk promo & info terbaru.
                 </h6>

@@ -67,7 +67,7 @@
                     }
 
                     html += `
-                    <a href="<?= base_url('homepage/preview_struk/') ?>${tr.id}" class="item">
+                    <a href="<?= base_url('transaction/preview_struk/') ?>${tr.id}" class="item">
                         <div class="detail">
                             <div class="image-block imaged w48" style="font-size:40px;">
                                 <ion-icon name="${icon}"></ion-icon>
