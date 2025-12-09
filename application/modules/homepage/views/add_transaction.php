@@ -101,7 +101,7 @@
         // services tambahkan type
         services = services.map(s => ({
             ...s,
-            type: 'service'
+            type: s.tipe
         }));
 
         // gabungkan
@@ -195,12 +195,14 @@
             <form>
                 <div class="modal-body text-start mb-2">
 
+                    ${s.type !== "product" ? `
                     <div class="form-group basic">
                         <label class="label">Yang Mengerjakan</label>
                         <select name="karyawan" class="form-control" multiple>
                             ${allKaryawan.map(k => `<option value="${k.id}">${k.name}</option>`).join("")}
                         </select>
                     </div>
+                    ` : ``}
 
                     <div class="form-group basic">
                         <label class="label">Quantity</label>
@@ -216,6 +218,7 @@
                         <label class="label">Diskon (%)</label>
                         <input name="discount" type="text" class="form-control">
                     </div>
+
                 </div>
 
                 <div class="modal-footer">
@@ -278,11 +281,12 @@
         //        VALIDASI INPUT
         // =============================
 
-        // Karyawan wajib
-        if (karyawan.length === 0) {
+        // Karyawan wajib (kecuali product)
+        if (s.type !== "product" && karyawan.length === 0) {
             alert("Pilih minimal 1 karyawan.");
             return;
         }
+
 
         // Qty wajib & harus angka > 0
         if (qty === "" || isNaN(qty) || parseInt(qty) <= 0) {
@@ -353,7 +357,7 @@
                     <div class="in">
                         <div>
                             <header>${item.name}</header>
-                            Pegang: ${item.karyawan.map(id => getKaryawanName(id)).join(", ")}
+                            ${item.type !== 'product' ? `Pegang: ${item.karyawan.map(id => getKaryawanName(id)).join(", ")}` : `` }
                             <footer>${item.qty} × Rp ${numberWithCommas(item.price)} — Diskon ${item.discount}%</footer>
                             <b>Total: Rp ${numberWithCommas(item.total)}</b>
                         </div>

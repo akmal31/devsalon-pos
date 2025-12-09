@@ -216,12 +216,14 @@
 				td.*,
 				CASE 
 					WHEN td.type = 'service' THEN s.name
+					WHEN td.type = 'product' THEN pr.name
 					WHEN td.type = 'package' THEN p.name
 				END AS item_name
 			");
 
 			$this->db->from('transaction_details td');
 			$this->db->join('services s', 's.id = td.reference_id AND td.type = "service"', 'left');
+			$this->db->join('services pr', 'pr.id = td.reference_id AND td.type = "product"', 'left');
 			$this->db->join('package p', 'p.package_id = td.reference_id AND td.type = "package"', 'left');
 
 			$this->db->where('td.transaction_id', $transaction_id);

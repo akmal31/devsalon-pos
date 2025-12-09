@@ -84,6 +84,10 @@
                 </div>
 
                 <div class="form-group mb-2">
+                    <label>Tipe</label>
+                </div>
+
+                <div class="form-group mb-2">
                     <label>Durasi (menit)</label>
                     <input type="number" class="form-control" id="edit_duration" required>
                 </div>

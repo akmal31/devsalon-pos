@@ -19,7 +19,7 @@
     <!-- App Capsule -->
     <div id="appCapsule" class="full-height">
         <div class="section mt-2 mb-2">
-            <div class="section-title">Boxed Inputs</div>
+            <div class="section-title">Input Pengeluaran</div>
             <div class="card">
                 <div class="card-body">
                     <form>

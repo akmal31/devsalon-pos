@@ -71,6 +71,51 @@
         </div>
         <!-- * Stats -->
 
+        <!-- Absensi -->
+        <div class="section mt-4">
+            <div class="section-heading">
+                <h2 class="title">Absensi Hari Ini</h2>
+                <a href="#" class="link" onclick="openAttendance()">Edit</a>
+            </div>
+
+            <ul id="attendanceList" class="listview simple-listview"> 
+                <?php foreach($attendance as $a): ?>
+                    <li data-id="<?= $a['user_id'] ?>"><?= $a['name'] ?>
+                        <span class="<?= $a['status'] === 'masuk' ? 'text-success' : 'text-danger' ?>"><?= ucfirst($a['status']) ?></span>
+                    </li> 
+                <?php endforeach; ?>
+            </ul>
+        </div>
+
+
+        <!-- MODAL EDIT ABSENSI -->
+        <div class="modal fade dialogbox" id="DialogAttendance" data-bs-backdrop="static" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h3 class="modal-title">Edit Absensi</h3>
+                    </div>
+
+                    <div class="modal-body" id="attendanceBody"></div>
+
+                    <div class="modal-footer">
+                        <div class="btn-list">
+                            <a href="#" class="btn btn-text-danger" data-bs-dismiss="modal">
+                                <ion-icon name="close-outline"></ion-icon> Batal
+                            </a>
+                            <a href="#" class="btn btn-primary" id="btnSaveAttendance">
+                                <ion-icon name="save-outline"></ion-icon> Simpan
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- * Absensi -->
+
         <!-- Transactions -->
         <div class="section mt-4">
             <div class="section-heading">
@@ -134,6 +179,32 @@
                         </div>
                     </div>
 
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade dialogbox" id="DialogIconedSuccess" data-bs-backdrop="static" tabindex="-1">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+
+                    <!-- ICON -->
+                    <div id="successIconWrapper" class="modal-icon">
+                        <ion-icon id="successIcon" name="checkmark-circle"></ion-icon>
+                    </div>
+
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="successTitle">Success</h5>
+                    </div>
+
+                    <div class="modal-body" id="successMessage">
+                        Your request was successful.
+                    </div>
+
+                    <div class="modal-footer">
+                        <div class="btn-inline">
+                            <a href="#" class="btn" data-bs-dismiss="modal">CLOSE</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -236,18 +307,34 @@
                     `;
                 }).join("");
 
-                return `
-                        <div class="item-block mb-3 p-2 bg-light rounded">
+                // console.log("TYPE:", item.type);
+
+                if (item.type === "product") {
+                    return `
+                        <div class="item-block bg-light rounded">
                             <div class="d-flex justify-content-between mb-1">
-                            <strong>${escapeHtml(item.item_name)}</strong>
-                            <strong class="item-price" data-raw="${priceNum}">Rp ${numberWithCommas(priceNum)}</strong>
+                                <strong style="color:black;">${escapeHtml(item.item_name)}</strong>
+                                <strong style="color:black;" class="item-price" data-raw="${item.total}">Rp ${numberWithCommas(item.total)}</strong>
+                            </div><hr>
+                            <div class="komisi-validation mb-0"></div>
+                        </div>
+                    `;
+                }
+
+                return `
+                        <div class="item-block bg-light rounded">
+                            <div class="d-flex justify-content-between mb-1">
+                            <strong style="color:black;">${escapeHtml(item.item_name)}</strong>
+                            <strong style="color:black;" class="item-price" data-raw="${priceNum}">Rp ${numberWithCommas(priceNum)}</strong>
                         </div><hr>
                         <div class="komisi-validation mb-2"></div>
                         <div>
                             ${staffRows || '<small class="text-muted">Belum ada staff</small>'}
+                            <hr style="color:black;height: 3px;">
                         </div>
                     </div>
                 `;
+                
             }).join("");
 
             document.getElementById("summaryBody").innerHTML = `
@@ -294,11 +381,11 @@
             });
 
             document.getElementById("summaryBody").innerHTML = `
-                <h5>${escapeHtml(tr.customer_name || "-")}</h5>
-                <hr>
+                <h4>Ringkasan Komisi</h4>
+                <hr style="color:black;height: 3px;">
                 ${rows}
                 <hr>
-                <button id="btnSaveKomisi" class="btn btn-primary w-100" onclick="saveKomisi(${id})" disabled>Simpan Komisi</button>
+                <button id="btnSaveKomisi" class="btn btn-primary w-100 mb-1" onclick="saveKomisi(${id})" disabled>Simpan Komisi</button>
             `;
 
             validateAllBlocksInitial();
@@ -316,36 +403,49 @@
 
         blocks.forEach(block => {
             let price = Number(block.querySelector(".item-price").dataset.raw);
+            let info  = block.querySelector(".komisi-validation");
+            let inputs = block.querySelectorAll(".komisi-input");
 
+            // kalau produk (tanpa komisi-input) → auto valid
+            if (inputs.length === 0) {
+                info.innerHTML = `<small class="text-muted">Produk tanpa komisi</small><hr style="color:black;height: 3px;">`;
+                return;
+            }
+
+            // hitung total komisi awal
             let total = 0;
-            block.querySelectorAll(".komisi-input").forEach(inp => {
-                let clean = cleanNumber(inp.value);
-                total += Number(clean || 0);
+            inputs.forEach(inp => {
+                total += Number(cleanNumber(inp.value)) || 0;
             });
 
-            let info = block.querySelector(".komisi-validation");
-
+            // render hasil
             if (total === price) {
-                info.innerHTML = `<span class="text-success fw-bold">✔ Total sesuai</span>`;
+                // info.innerHTML = `<span class="text-success fw-bold">✔ Total sesuai</span>`;
+                info.innerHTML = ``;
             } else {
                 info.innerHTML = `
-                    <span class="text-danger fw-bold">
+                    <h5 class="text-danger fw-bold">
                         ✘ Total komisi Rp ${numberWithCommas(total)} ≠ Rp ${numberWithCommas(price)}
-                    </span>
+                    </h5>
                 `;
             }
         });
     }
+
 
     function checkAllKomisiValid() {
         const blocks = document.querySelectorAll(".item-block");
         let allValid = true;
 
         blocks.forEach(block => {
+            const inputs = block.querySelectorAll(".komisi-input");
+            if (inputs.length === 0) {
+                return; // product → dianggap valid
+            }
+
             const price = Number(block.querySelector(".item-price").dataset.raw);
             let total = 0;
-
-            block.querySelectorAll(".komisi-input").forEach(inp => {
+            inputs.forEach(inp => {
                 total += Number(cleanNumber(inp.value) || 0);
             });
 
@@ -356,6 +456,7 @@
 
         document.getElementById("btnSaveKomisi").disabled = !allValid;
     }
+
 
     function saveKomisi(transactionId) {
         let payload = [];
@@ -439,13 +540,14 @@
             let info = parent.querySelector(".komisi-validation");
 
             if(total === price) {
-                info.innerHTML = `<span class="text-success fw-bold">✔ Total sesuai</span>`;
+                // info.innerHTML = `<span class="text-success fw-bold">✔ Total sesuai</span>`;
+                info.innerHTML = ``;
             } 
             else {
                 info.innerHTML = `
-                    <span class="text-danger fw-bold">
+                    <h5 class="text-danger fw-bold">
                         ✘ Total komisi Rp ${numberWithCommas(total)} ≠ Rp ${numberWithCommas(price)}
-                    </span>
+                    </h5>
                 `;
             }
 
@@ -453,29 +555,110 @@
         }
     });
 
-    function checkAllKomisiValid() {
-        const blocks = document.querySelectorAll(".item-block");
-        let allValid = true;
+</script>
 
-        blocks.forEach(block => {
-            let price = Number(block.querySelector(".item-price").dataset.raw);
+<script>
+    
+    var attendanceData = <?= json_encode($attendance) ?>;
 
-            let total = 0;
-            let inputs = block.querySelectorAll(".komisi-input");
-            inputs.forEach(inp => {
-                let clean = inp.value.replace(/\./g, "").replace(/\D/g, "");
-                total += Number(clean || 0);
-            });
+    function openAttendance(){
+        let data = attendanceData; 
+        let body = document.getElementById("attendanceBody");
 
-            if (total !== price) {
-                allValid = false;
-            }
+        let html = `<ul class="listview simple-listview">`;
+
+        data.forEach(row => {
+            html += `
+            <li>
+                        ${row.name}
+                        <span class="text-muted">
+                            <input type="checkbox" class="form-check-input" name="status[${row.user_id}]" ${row.status=="masuk" ? "checked" : ""}>
+                        </span>
+                
+            </li>`;
         });
 
-        document.getElementById("btnSaveKomisi").disabled = !allValid;
+        html += `</ul>`;
+        body.innerHTML = html;
+
+        let modal = new bootstrap.Modal(document.getElementById('DialogAttendance'));
+        modal.show();
     }
 
+    document.getElementById("btnSaveAttendance").addEventListener("click", function(e){
+        e.preventDefault();
 
+        let formData = new FormData();
+
+        // ambil semua checkbox
+        document.querySelectorAll('#attendanceBody input[type="checkbox"]').forEach(chk => {
+            let userId = chk.name.replace('status[','').replace(']','');
+            formData.append("status["+userId+"]", chk.checked ? "masuk" : "tidak masuk");
+        });
+
+        fetch("<?= base_url('homepage/saveToday') ?>", {
+            method: "POST",
+            body: formData
+        })
+        .then(r => r.json())
+        .then(res => {
+            // <-- PENTING: backend mengembalikan res.status (boolean)
+            if (res.status || res.success) {
+
+                // 1) Close attendance modal (gunakan getInstance; kalau null, buat instance lalu hide)
+                const attendanceEl = document.getElementById('DialogAttendance');
+                attendanceData = res.data;
+                let modalAttendance = null;
+                try {
+                    modalAttendance = bootstrap.Modal.getInstance(attendanceEl);
+                    if (!modalAttendance && attendanceEl) modalAttendance = new bootstrap.Modal(attendanceEl);
+                    if (modalAttendance) modalAttendance.hide();
+                } catch (err) {
+                    // ignore
+                }
+
+                let list = document.getElementById("attendanceList");
+                list.innerHTML = ""; // kosongin isi lama
+
+                res.data.forEach(item => {
+                    list.innerHTML += `
+                    <li data-id="${item.user_id}">
+                        ${item.name}
+                        <span class="${item.status === 'masuk' ? 'text-success' : 'text-danger'}"> ${item.status.charAt(0).toUpperCase() + item.status.slice(1)} </span>
+                    </li>`;
+                });
+
+                // 2) Set message & title (jika mau)
+                document.getElementById("successTitle").innerText = "Berhasil";
+                document.getElementById("successMessage").innerText = res.message ?? "Absensi tersimpan.";
+
+                // 3) Show success modal
+                const successEl = document.getElementById('DialogIconedSuccess');
+                let modalSuccess = null;
+                try {
+                    modalSuccess = bootstrap.Modal.getInstance(successEl);
+                    if (!modalSuccess && successEl) modalSuccess = new bootstrap.Modal(successEl);
+                    if (modalSuccess) {
+                        modalSuccess.show();
+
+                        // auto hide after 2s lalu reload (opsional)
+                        setTimeout(() => {modalSuccess.hide();}, 2000);
+                    }
+                } catch (err) {
+                    // fallback: alert
+                    alert(res.message ?? "Absensi tersimpan.");
+                }
+            } else {
+                // response false -> tampilkan pesan error
+                const msg = res.message ?? "Gagal menyimpan absensi";
+                alert(msg);
+            }
+        })
+        .catch(err => {
+            console.error(err);
+            alert("Terjadi kesalahan jaringan.");
+        });
+    });
 
 </script>
 

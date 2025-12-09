@@ -66,8 +66,8 @@
                                     <header style="font-size:35px;padding:10px;font-weight:bold;"><?= $item['item_name'] ?></header>
                                     <header style="font-size:32px;padding-left:10px;">
                                         <?= $item['quantity'] ?> × Rp <?= number_format($item['price'],0,',','.') ?>
-                                        <br> Diskon <?= $item['discount'] ?>%
-                </header>
+                                        <?= $item['discount'] > 0 ? "<br>Diskon {$item['discount']}%" : "" ?>
+                                    </header>
                                 </div>
 
                                 <!-- BAGIAN KANAN (TEMPAT TOTAL) -->

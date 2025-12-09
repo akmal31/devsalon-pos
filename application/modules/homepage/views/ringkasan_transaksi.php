@@ -25,9 +25,12 @@
                     <div class="in">
                         <div>
                             <b><?= $item['name'] ?></b>
-                            <header>Pegang: <?= implode(", ", array_map(function($kid) use ($karyawanMap) { return $karyawanMap[$kid] ?? '-'; }, $item['karyawan'])) ?></header>
+                            <?= $item['type'] === 'product' ? '' : '<header>Pegang: ' . implode(", ", array_map(function($kid) use ($karyawanMap) {
+                                return $karyawanMap[$kid] ?? '-';
+                            }, $item['karyawan'])) . '</header>' ?>
                             <footer>
-                                <?= $item['qty'] ?> × Rp <?= number_format($item['price'], 0, ',', '.') ?> — Diskon <?= $item['discount'] ?>%
+                                <?= $item['qty'] ?> × Rp <?= number_format($item['price'], 0, ',', '.') ?>
+                                <?= $item['discount'] > 0 ? " — Diskon {$item['discount']}%" : "" ?>
                             </footer>
                             <b>Total: Rp <?= number_format($item['total'],0,',','.') ?></b>
                         </div>
