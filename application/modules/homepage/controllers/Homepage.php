@@ -44,6 +44,7 @@
 			$this->data['msg'] = "";
 
 			$this->load->model('homepage/M_homepage');
+			$this->load->model('homepage/M_attendance');
 			
 		}
 
@@ -52,34 +53,48 @@
 			$user = $this->session->userdata('logged_in');
 			$isOwner = ($user['USER_GROUP_ID'] == 1);
 
-			// Ambil pilihan outlet dari GET (khusus owner)
 			$selectedOutlet = $this->input->get('outlet_id') ?? null;
 
-			// Jika bukan owner, pakai outlet user
 			if (!$isOwner) {
 				$selectedOutlet = $user['OUTLET_ID'] ?? null;
 			}
 
-			// Ambil model
 			$stats         = $this->M_homepage->getTodayStats($selectedOutlet);
 			$transactions  = $this->M_homepage->getTodayTransactions($selectedOutlet);
 
-			// Ambil list cabang — owner dapat semua, user hanya outlet-nya
 			$listCabang = $isOwner 
 				? $this->M_homepage->getListCabang() 
 				: [$this->M_homepage->getCabang($selectedOutlet)];
 
-			// Jika owner memilih "Semua Cabang"
 			if ($isOwner && empty($selectedOutlet)) {
-				// Hitung total cash laci seluruh outlet
 				$cash_laci = $this->db->select_sum('cash_laci')->get('outlet')->row()->cash_laci;
 				$dataCabang = ['cash_laci' => $cash_laci];
 			} else {
-				// Ambil data outlet tertentu
 				$dataCabang = $this->db->get_where('outlet', ['outlet_id' => $selectedOutlet])->row_array();
 			}
 
-			// Data ke view
+			// ==================================
+			// ABSENSI LOGIC MULAI DI SINI
+			// ==================================
+
+			// Cek apakah absensi hari ini ada
+			$countToday = $this->M_attendance->countTodayAttendance($selectedOutlet);
+
+			if ($countToday > 0) {
+				// Sudah ada → ambil absensi
+				$attendance = $this->M_attendance->getTodayAttendance($selectedOutlet);
+			} else {
+				// Belum ada → ambil list user
+				$attendance = $this->M_attendance->getUsersByOutlet($selectedOutlet);
+
+				// Tambahkan status default biar view tetap sama
+				foreach ($attendance as &$row) {
+					$row['status'] = 'tidak masuk';
+				}
+			}
+
+			// ==================================
+
 			$data = [
 				'todayRevenue' => $stats['todayRevenue'],
 				'todayCustomer'=> $stats['todayCustomer'],
@@ -88,11 +103,13 @@
 				'transactions' => $transactions,
 				'listCabang'   => $listCabang,
 				'selectedOutlet' => $selectedOutlet,
-				'user_profile' => $this->data['user_profile']
+				'user_profile' => $this->data['user_profile'],
+
+				// >> passing data attendance
+				'attendance' => $attendance
 			];
 
-			// Pilih view berdasarkan role
-			$view = $isOwner ? 'v_owner_list' : 'v_list';
+			$view = $isOwner ? 'homepage/v_owner_list' : 'homepage/v_list';
 			$this->load->view($view, $data);
 		}
 
@@ -171,10 +188,11 @@
 				$result[] = [
 					"detail_id" => $d['id'],
 					"item_name" => $d['item_name'],
+					"type"		=> $d['type'],
 					"price"     => (int)$d['price'],
 					"total"     => (int)$d['total'],
 					"staff"     => $staffs
-				];
+				];	
 			}
 
 			echo json_encode([
@@ -288,13 +306,13 @@
 			];
 			$this->db->insert('transactions', $trans);
 			$transaction_id = $this->db->insert_id();
-
+			
 			foreach($cart_data as $item){
 				// Insert transaction_details
 				$detail = [
 					'transaction_id' => $transaction_id,
 					'reference_id'   => $item['id'],
-					'type'          => $item['type'],
+					'type'           => $item['type'],
 					'price'          => $item['price'],
 					'quantity'       => $item['qty'],
 					'discount'       => $item['discount'] ?? 0,
@@ -372,8 +390,28 @@
 			}
 		}
 
+		public function saveToday()
+		{
+			$user = $this->session->userdata('logged_in');
+			$outlet_id = $user['OUTLET_ID'];
+			$today = date('Y-m-d');
+			$post = $this->input->post('status'); 
+
+			if (!empty($post)) {
+				foreach ($post as $user_id => $val) {
+					$status = $val; // langsung 'masuk' atau 'tidak masuk'
+					$this->M_attendance->saveOrUpdate($user_id, $today, $status);
+				}
+			}
+
+			// Ambil data absensi terbaru setelah simpan
+			$latest = $this->M_attendance->getTodayAttendance($outlet_id);
+
+			echo json_encode([
+				'status'  => true,
+				'message' => 'Absensi hari ini sudah disimpan',
+				'data'    => $latest
+			]);
+		}
 
 	}
-
-
-
