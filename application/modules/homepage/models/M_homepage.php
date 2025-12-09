@@ -51,6 +51,7 @@
 			$this->db->select('a.*');
 			$this->db->from('users a');
 			$this->db->where_in('user_group_id', [3,4]);
+			$this->db->where('outlet_id', $this->session->userdata('logged_in')['OUTLET_ID']);
 			$query = $this->db->get();
 			
 			if ($query->num_rows() > 0) {
