@@ -108,7 +108,7 @@
             }
 
             try {
-                const response = await fetch("http://localhost/devsalon/devsalonPOS/pengeluaran/save", {
+                const response = await fetch('<?= base_url("pengeluaran/save") ?>', {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
@@ -125,7 +125,7 @@
 
                 if (res.status) {
                     alert("Pengeluaran berhasil disimpan!");
-                    window.location.href = "http://localhost/devsalon/devsalonPOS/pengeluaran";
+                    window.location.href = '<?= base_url("pengeluaran") ?>';
                 } else {
                     alert("Gagal menyimpan: " + res.message);
                 }
