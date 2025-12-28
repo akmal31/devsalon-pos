@@ -43,11 +43,21 @@
 			return $this->db->get_where('transactions', ['id'=>$id])->row_array();
 		}
 
-		public function getTransactionDetails($transaction_id){
-			$this->db->select('td.*, s.name as item_name');
+		public function getTransactionDetails($transaction_id)
+		{
+			$this->db->select("
+				td.*,
+				CASE 
+					WHEN td.type = 'service' THEN s.name
+					WHEN td.type = 'package' THEN p.name
+					ELSE NULL
+				END AS item_name
+			");
 			$this->db->from('transaction_details td');
-			$this->db->join('services s', 's.id = td.reference_id', 'left');
+			$this->db->join('services s', "s.id = td.reference_id AND td.type = 'service'", 'left');
+			$this->db->join('packages p', "p.id = td.reference_id AND td.type = 'package'", 'left');
 			$this->db->where('td.transaction_id', $transaction_id);
+
 			return $this->db->get()->result_array();
 		}
 
