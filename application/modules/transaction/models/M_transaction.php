@@ -55,7 +55,7 @@
 			");
 			$this->db->from('transaction_details td');
 			$this->db->join('services s', "s.id = td.reference_id AND td.type = 'service'", 'left');
-			$this->db->join('package p', "p.id = td.reference_id AND td.type = 'package'", 'left');
+			$this->db->join('package p', "p.package_id = td.reference_id AND td.type = 'package'", 'left');
 			$this->db->where('td.transaction_id', $transaction_id);
 
 			return $this->db->get()->result_array();
