@@ -154,12 +154,14 @@
                                 </div>
                             </a>
 
+                             <?php if ($user_profile['USER_GROUP_ID'] == 1): ?>
                             <!-- ICON Approve -->
                             <ion-icon 
                                 name="checkmark-circle-outline" 
                                 style="font-size: 24px; color:green; margin-left:10px;"
                                 onclick="openApproveModal(${tr.id})">
                             </ion-icon>
+                            <?php endif; ?>
                             <!-- ICON HAPUS -->
                             <ion-icon 
                                 name="trash-outline" 

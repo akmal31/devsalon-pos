@@ -48,7 +48,7 @@
 
 		public function index()
 		{
-			$this->load->view('v_list');
+			$this->load->view('v_list', $this->data);
 		}
 
 
