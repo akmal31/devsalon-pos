@@ -64,14 +64,15 @@
 				return;
 			}
 
-			// data cabang
-			$data['cabang'] = $this->M_transaction->getCabang();
 			// Ambil data transaksi
 			$transaction = $this->M_transaction->getTransactionById($transaction_id);
 			if(!$transaction){
 				show_error("Transaksi tidak ditemukan");
 				return;
 			}
+
+			// data cabang
+			$data['cabang'] = $this->M_transaction->getCabang($transaction['outlet_id']);
 
 			$data['cart']         = $this->M_transaction->getTransactionDetails($transaction_id);
 			$data['grand_total']  = $transaction['grand_total'];
