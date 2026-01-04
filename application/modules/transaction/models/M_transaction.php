@@ -7,12 +7,12 @@
 			parent::__construct();
 		}
 		
-		public function getCabang() {
+		public function getCabang($outlet_id) {
 			
 			$result = null;
 			$this->db->select('a.*');
 			$this->db->from('outlet a');
-			$this->db->where('outlet_id', $this->session->userdata('logged_in')['OUTLET_ID']);
+			$this->db->where('outlet_id', $outlet_id);
 			$this->db->limit(1);
 			$query = $this->db->get();
 			if ($query->num_rows() > 0) {
