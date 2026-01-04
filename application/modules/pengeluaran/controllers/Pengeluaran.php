@@ -126,4 +126,22 @@
 			]);
 		}
 
+		public function approve($id)
+		{
+			$result = $this->M_pengeluaran->approve_pengeluaran($id);
+
+			if ($result) {
+				echo json_encode([
+					'status' => true,
+					'message' => 'Pengeluaran berhasil di-approve'
+				]);
+			} else {
+				echo json_encode([
+					'status' => false,
+					'message' => 'Gagal approve pengeluaran'
+				]);
+			}
+		}
+
+
 	}

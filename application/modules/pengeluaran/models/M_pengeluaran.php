@@ -82,4 +82,25 @@
 			return true;
 		}
 
+		public function approve_pengeluaran($id)
+		{
+			// ambil data dulu (opsional tapi bagus)
+			$pengeluaran = $this->db
+				->get_where('pengeluaran', ['id' => $id])
+				->row();
+
+			if (!$pengeluaran) {
+				return false;
+			}
+
+			// update status jadi approve (2)
+			$this->db->where('id', $id);
+			$this->db->update('pengeluaran', [
+				'status'     => 2
+			]);
+
+			return $this->db->affected_rows() > 0;
+		}
+
+
 	}
