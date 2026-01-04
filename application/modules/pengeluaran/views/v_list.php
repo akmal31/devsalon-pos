@@ -62,6 +62,32 @@
             </div>
         </div>
     </div>
+    <!-- Modal Approve -->
+    <div class="modal fade" id="DialogApprove" data-bs-backdrop="static" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Approve Pengeluaran</h5>
+                </div>
+                <div class="modal-body">
+                    Anda yakin akan menyetujui pengeluaran?
+                </div>
+                <div class="modal-footer">
+                    <div class="btn-inline">
+                        <a href="#" class="btn btn-text-danger" data-bs-dismiss="modal">
+                            <ion-icon name="close-outline"></ion-icon>
+                            Tidak
+                        </a>
+
+                        <a href="#" class="btn btn-text-primary" id="btnApproveConfirm">
+                            <ion-icon name="checkmark-outline"></ion-icon>
+                            Yakin
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    
 
 
 </body>
@@ -89,6 +115,12 @@
         3: '<span class="text-danger">Reject</span>'
     };
 
+   const tipePengeluaran = {
+        'pengeluaran': '<span class="text-primary">Pengeluaran</span>',
+        'ambil laci': '<span class="text-info">Setoran Cash</span>',
+        'tip': '<span class="text-info">Tukar Tip</span>'
+    };
+
     // Function load transaksi
     function loadPengeluaran(tanggal) {
         fetch('<?= base_url("pengeluaran/filterPengeluaran") ?>', {
@@ -114,12 +146,20 @@
                                             ${new Date(tr.created_at).toLocaleDateString('id-ID', {day:'numeric', month:'long', year:'numeric'})}
                                             ${new Date(tr.created_at).toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'})}
                                             <br>
+                                            ${tipePengeluaran[tr.tipe] ?? '<span class="text-secondary">Tidak diketahui</span>'}
+                                            <br>
                                             ${statusLabel[tr.status] ?? '<span class="text-secondary">Tidak diketahui</span>'}
                                         </p>
                                     </div>
                                 </div>
                             </a>
 
+                            <!-- ICON Approve -->
+                            <ion-icon 
+                                name="checkmark-circle-outline" 
+                                style="font-size: 24px; color:green; margin-left:10px;"
+                                onclick="openApproveModal(${tr.id})">
+                            </ion-icon>
                             <!-- ICON HAPUS -->
                             <ion-icon 
                                 name="trash-outline" 
@@ -157,6 +197,13 @@
         myModal.show();
     }
 
+    // Klik icon approve → tampilkan modal
+    function openApproveModal(id) {
+        approveId = id;
+        var myModal = new bootstrap.Modal(document.getElementById('DialogApprove'));
+        myModal.show();
+    }    
+
     // Klik tombol "Yakin"
     document.getElementById('btnDeleteConfirm').addEventListener('click', function(e){
         e.preventDefault();
@@ -187,6 +234,41 @@
         })
         .catch(err => alert("Terjadi kesalahan server"));
     });
+
+    let approveId = null;
+    // Klik tombol "Yakin Approve"
+    document.getElementById('btnApproveConfirm').addEventListener('click', function(e){
+        e.preventDefault();
+
+        if (!approveId) return;
+
+        fetch("<?= base_url('pengeluaran/approve/') ?>" + approveId, {
+            method: "POST"
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.status) {
+
+                // Tutup modal
+                const modalEl = document.getElementById('DialogApprove');
+                const modal = bootstrap.Modal.getInstance(modalEl);
+                modal.hide();
+
+                alert("Pengeluaran berhasil di-approve!");
+
+                // Reload list
+                loadPengeluaran(filterTanggal.value);
+
+            } else {
+                alert(data.message || "Gagal approve data.");
+            }
+        })
+        .catch(err => {
+            console.error(err);
+            alert("Terjadi kesalahan server");
+        });
+    });
+
 
 </script>
 

@@ -71,10 +71,11 @@
 			$barang   = $this->input->post('barang');
 			$tanggal  = $this->input->post('tanggal');
 			$metode   = $this->input->post('metode'); // cash / transfer dll
+			$tipe   = $this->input->post('tipe'); 
 			$nominal  = (int) $this->input->post('nominal');
 			$outlet_id = $this->session->userdata('logged_in')['OUTLET_ID'] ?? null;
 
-			if (!$barang || !$tanggal || !$metode || !$nominal) {
+			if (!$barang || !$tanggal || !$metode || !$nominal || !$tipe ) {
 				echo json_encode(["status" => false, "message" => "Semua field wajib diisi"]);
 				return;
 			}
@@ -86,6 +87,7 @@
 				'tanggal_transaksi' => $tanggal,
 				'status' => 1,
 				'payment_method' => $metode,
+				'tipe' => $tipe,
 				'total_price' => $nominal
 			];
 
@@ -123,5 +125,23 @@
 				'status' => $result ? true : false
 			]);
 		}
+
+		public function approve($id)
+		{
+			$result = $this->M_pengeluaran->approve_pengeluaran($id);
+
+			if ($result) {
+				echo json_encode([
+					'status' => true,
+					'message' => 'Pengeluaran berhasil di-approve'
+				]);
+			} else {
+				echo json_encode([
+					'status' => false,
+					'message' => 'Gagal approve pengeluaran'
+				]);
+			}
+		}
+
 
 	}
