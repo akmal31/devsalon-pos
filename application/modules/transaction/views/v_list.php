@@ -57,42 +57,91 @@
         .then(data => {
             let html = '';
 
-            if(data.length > 0){
+            if (data.length > 0) {
                 data.forEach(tr => {
                     let icon = 'logo-octocat';
-                    switch(tr.payment_method){
+                    switch (tr.payment_method) {
                         case 'cash': icon = 'cash-outline'; break;
                         case 'qris': icon = 'qr-code-outline'; break;
                         case 'card': icon = 'card-outline'; break;
                     }
 
                     html += `
-                    <a href="<?= base_url('transaction/preview_struk/') ?>${tr.id}" class="item">
-                        <div class="detail">
-                            <div class="image-block imaged w48" style="font-size:40px;">
-                                <ion-icon name="${icon}"></ion-icon>
+                    <div class="item d-flex justify-content-between align-items-center" style="padding-right: 10px;">
+                        
+                        <!-- LINK PREVIEW -->
+                        <a href="<?= base_url('transaction/preview_struk/') ?>${tr.id}"
+                        class="flex-grow-1 text-decoration-none text-dark">
+                            <div class="detail d-flex align-items-center">
+                                <div class="image-block imaged w48" style="font-size:40px;">
+                                    <ion-icon name="${icon}"></ion-icon>
+                                </div>
+                                <div>
+                                    <strong>${tr.customer_name || 'Guest'}</strong>
+                                    <strong style="font-size:12px" class="text-primary">${tr.outlet_name.trim().split(/\s+/).pop()}</strong>
+                                    <p class="mb-0 text-muted">
+                                        ${new Date(tr.created_at).toLocaleDateString('id-ID', {
+                                            day:'numeric', month:'long', year:'numeric'
+                                        })}
+                                        ${new Date(tr.created_at).toLocaleTimeString('id-ID', {
+                                            hour:'2-digit', minute:'2-digit'
+                                        })}
+                                    </p>
+                                </div>
                             </div>
-                            <div>
-                                <strong>${tr.customer_name || 'Guest'}</strong>
-                                <p>${new Date(tr.created_at).toLocaleDateString('id-ID', {day: 'numeric', month:'long', year:'numeric'})} 
-                                ${new Date(tr.created_at).toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'})}
-                                </p>
+                        </a>
+
+                        <!-- HARGA -->
+                        <div class="right text-end me-1">
+                            <div class="price text-success" style="font-size: 12px;">
+                                Rp ${Number(tr.grand_total).toLocaleString('id-ID')}
                             </div>
                         </div>
-                        <div class="right">
-                            <div class="price text-success">Rp ${Number(tr.grand_total).toLocaleString('id-ID')}</div>
-                        </div>
-                    </a>
-                    `;
+
+                        <?php if ($user_profile['USER_GROUP_ID'] == 1): ?>
+                        <!-- DELETE (ADMIN ONLY) -->
+                        <button class="btn btn-sm btn-danger"
+                            onclick="deleteTransaction(event, ${tr.id})">
+                            <ion-icon name="trash-outline"></ion-icon>
+                        </button>
+                        <?php endif; ?>
+
+                    </div>`;
                 });
             } else {
-                html = '<p class="text-center"><ion-icon name="telescope-outline" style="font-size: 60px;"></ion-icon><br>- Belum ada transaksi -</p>';
+                html = `
+                <p class="text-center">
+                    <ion-icon name="telescope-outline" style="font-size: 60px;"></ion-icon><br>
+                    - Belum ada transaksi -
+                </p>`;
             }
 
             transactionsContainer.innerHTML = html;
         })
         .catch(err => console.error(err));
     }
+
+    // function delete
+    function deleteTransaction(e, id) {
+        e.preventDefault();
+        e.stopPropagation(); // penting: biar ga ke klik preview
+
+        if (!confirm('Yakin hapus transaksi ini?')) return;
+
+        fetch(`<?= base_url('transaction/delete/') ?>${id}`, {
+            method: 'DELETE'
+        })
+        .then(res => res.json())
+        .then(res => {
+            alert(res.message || 'Transaksi berhasil dihapus');
+            loadTransactions($('#filter_tanggal').val()); // reload list
+        })
+        .catch(err => {
+            console.error(err);
+            alert('Gagal menghapus transaksi');
+        });
+    }
+
 
     // Load default transaksi hari ini
     loadTransactions(today);
