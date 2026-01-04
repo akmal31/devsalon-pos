@@ -61,36 +61,12 @@
 			return $this->db->get()->result_array();
 		}
 
-		public function getTodayStats($outlet_id = null)
-		{
-			// filter outlet jika ada
-			$this->db->select('
-				SUM(grand_total) as todayRevenue,
-				COUNT(DISTINCT customer_id) as todayCustomer
-			');
-			$this->db->from('transactions');
-			
-			if($outlet_id){
-				$this->db->where('outlet_id', $outlet_id);
-			}
-
-			// hanya transaksi hari ini
-			$this->db->where('DATE(created_at)', date('Y-m-d'));
-
-			$query = $this->db->get();
-			$row = $query->row();
-
-			return [
-				'todayRevenue' => (float)($row->todayRevenue ?? 0),
-				'todayCustomer'=> (int)($row->todayCustomer ?? 0)
-			];
-		}
-
 		public function getAllTransactions($outlet_id = null, $date = null)
 		{
-			$this->db->select('t.id, t.grand_total, t.payment_method, t.created_at, c.name as customer_name');
+			$this->db->select('t.id, t.grand_total, t.payment_method, t.created_at, c.name as customer_name, o.name as outlet_name');
 			$this->db->from('transactions t');
 			$this->db->join('customers c', 't.customer_id = c.id', 'left');
+			$this->db->join('outlet o', 't.outlet_id = o.outlet_id', 'left');
 
 			if ($outlet_id) {
 				$this->db->where('t.outlet_id', $outlet_id);
@@ -107,5 +83,70 @@
 			return $query->result_array();
 		}
 
+		public function delete_transaction($transaction_id)
+		{
+			$this->db->trans_begin();
+
+			// 1. Ambil data transaksi
+			$transaction = $this->db
+				->get_where('transactions', ['id' => $transaction_id])
+				->row();
+
+			if (!$transaction) {
+				$this->db->trans_rollback();
+				return false;
+			}
+
+			// 2. Jika cash → kurangi cash_laci outlet
+			if ($transaction->payment_method === 'cash') {
+				$this->db->set(
+					'cash_laci',
+					'cash_laci - ' . (float)$transaction->grand_total,
+					false
+				);
+				$this->db->where('outlet_id', $transaction->outlet_id);
+				$this->db->update('outlet');
+			}
+
+			// 3. Ambil transaction_details ID
+			$detail_ids = $this->db
+				->select('id')
+				->from('transaction_details')
+				->where('transaction_id', $transaction_id)
+				->get()
+				->result_array();
+
+			if (!empty($detail_ids)) {
+				$detail_ids = array_column($detail_ids, 'id');
+
+				// 4. Hapus transaction_staff
+				$this->db->where_in('transaction_detail_id', $detail_ids);
+				$this->db->delete('transaction_staff');
+			}
+
+			// 5. Hapus transaction_details
+			$this->db->where('transaction_id', $transaction_id);
+			$this->db->delete('transaction_details');
+
+			// 6. Hapus mutasi_outlet
+			$this->db->where([
+				'reference_id' => $transaction_id,
+				'tipe_mutasi'  => 'pemasukan'
+			]);
+			$this->db->delete('mutasi_outlet');
+
+			// 7. Hapus transaction
+			$this->db->where('id', $transaction_id);
+			$this->db->delete('transactions');
+
+			// Commit / Rollback
+			if ($this->db->trans_status() === false) {
+				$this->db->trans_rollback();
+				return false;
+			}
+
+			$this->db->trans_commit();
+			return true;
+		}
 		
 	}

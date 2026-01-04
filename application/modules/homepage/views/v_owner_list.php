@@ -75,7 +75,7 @@
                 </div>
                 <div class="col-6">
                     <div class="stat-box">
-                        <div class="">Total Cash di Laci</div>
+                        <div class="">Total Cash Laci</div>
                         <div class="text-success">Rp <?= number_format($dataCabang['cash_laci'],0,',','.') ?></div>
                     </div>
                 </div>
