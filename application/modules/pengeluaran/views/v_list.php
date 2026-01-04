@@ -89,6 +89,12 @@
         3: '<span class="text-danger">Reject</span>'
     };
 
+   const tipePengeluaran = {
+        'pengeluaran': '<span class="text-primary">Pengeluaran</span>',
+        'ambil laci': '<span class="text-info">Setoran Cash</span>',
+        'tip': '<span class="text-info">Tukar Tip</span>'
+    };
+
     // Function load transaksi
     function loadPengeluaran(tanggal) {
         fetch('<?= base_url("pengeluaran/filterPengeluaran") ?>', {
@@ -113,6 +119,8 @@
                                         <p>
                                             ${new Date(tr.created_at).toLocaleDateString('id-ID', {day:'numeric', month:'long', year:'numeric'})}
                                             ${new Date(tr.created_at).toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'})}
+                                            <br>
+                                            ${tipePengeluaran[tr.tipe] ?? '<span class="text-secondary">Tidak diketahui</span>'}
                                             <br>
                                             ${statusLabel[tr.status] ?? '<span class="text-secondary">Tidak diketahui</span>'}
                                         </p>

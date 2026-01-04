@@ -260,12 +260,12 @@
 			// ==========================
 			$this->db->select('SUM(total_price) AS todayExpense');
 			$this->db->from('pengeluaran');
+			$this->db->where('tipe', 'pengeluaran');
 
 			if ($outlet_id) {
 				$this->db->where('outlet_id', $outlet_id);
 			}
 
-			$this->db->where('payment_method', 'cash');
 			$this->db->where_in('status', [1, 2]); // pengajuan & approve
 			$this->db->where('DATE(tanggal_transaksi)', date('Y-m-d'));
 
@@ -315,6 +315,7 @@
 			// ==========================
 			$this->db->select('SUM(total_price) AS monthExpense');
 			$this->db->from('pengeluaran');
+			$this->db->where('tipe', 'pengeluaran');
 
 			if ($outlet_id) {
 				$this->db->where('outlet_id', $outlet_id);

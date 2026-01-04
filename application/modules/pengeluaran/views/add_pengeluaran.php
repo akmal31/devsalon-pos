@@ -45,10 +45,21 @@
 
                         <div class="form-group boxed">
                             <div class="input-wrapper">
-                                <label class="label" for="select4b">Select</label>
+                                <label class="label" for="select4b">Metode Pembayaran</label>
                                 <select class="form-control custom-select" id="select4b">
                                     <option value="cash">Cash</option>
                                     <option value="transfer">Transfer</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group boxed">
+                            <div class="input-wrapper">
+                                <label class="label" for="select4c">Tipe</label>
+                                <select class="form-control custom-select" id="select4c">
+                                    <option value="ambil laci">Setoran Cash</option>
+                                    <option value="pengeluaran">Pembelian</option>
+                                    <option value="tip">Tukar Tip</option>
                                 </select>
                             </div>
                         </div>
@@ -100,6 +111,7 @@
             let barang = document.getElementById("text4b").value.trim();
             let tanggal = document.getElementById("date4b").value;
             let metode = document.getElementById("select4b").value;
+            let tipe = document.getElementById("select4c").value;
             let nominal = document.getElementById("price4b").value.replace(/\./g, "");
 
             if (!barang || !tanggal || !metode || !nominal) {
@@ -117,6 +129,7 @@
                         barang: barang,
                         tanggal: tanggal,
                         metode: metode,
+                        tipe: tipe,
                         nominal: nominal
                     })
                 });
