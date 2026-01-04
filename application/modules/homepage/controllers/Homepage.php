@@ -61,6 +61,7 @@
 
 			$stats         = $this->M_homepage->getTodayStats($selectedOutlet);
 			$transactions  = $this->M_homepage->getTodayTransactions($selectedOutlet);
+			$monthStats 	= $this->M_homepage->getThisMonthStats($selectedOutlet);
 
 			$listCabang = $isOwner 
 				? $this->M_homepage->getListCabang() 
@@ -99,6 +100,9 @@
 				'todayRevenue' => $stats['todayRevenue'],
 				'todayCustomer'=> $stats['todayCustomer'],
 				'todayExpense' => $stats['todayExpense'],
+				'monthRevenue' => $monthStats['monthRevenue'],
+				'monthCustomer'=> $monthStats['monthCustomer'],
+				'monthExpense' => $monthStats['monthExpense'],
 				'dataCabang'   => $dataCabang,
 				'transactions' => $transactions,
 				'listCabang'   => $listCabang,
