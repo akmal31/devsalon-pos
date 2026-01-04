@@ -283,6 +283,60 @@
 			];
 		}
 
+		public function getThisMonthStats($outlet_id = null)
+		{
+			// range bulan ini
+			$start = date('Y-m-01 00:00:00');
+			$end   = date('Y-m-t 23:59:59');
+
+			// ==========================
+			// 1. Pendapatan bulan ini
+			// ==========================
+			$this->db->select('
+				SUM(grand_total) AS monthRevenue,
+				COUNT(DISTINCT customer_id) AS monthCustomer
+			');
+			$this->db->from('transactions');
+
+			if ($outlet_id) {
+				$this->db->where('outlet_id', $outlet_id);
+			}
+
+			$this->db->where('created_at >=', $start);
+			$this->db->where('created_at <=', $end);
+
+			$trxRow = $this->db->get()->row();
+
+			$monthRevenue  = (float)($trxRow->monthRevenue ?? 0);
+			$monthCustomer = (int)($trxRow->monthCustomer ?? 0);
+
+			// ==========================
+			// 2. Pengeluaran cash bulan ini
+			// ==========================
+			$this->db->select('SUM(total_price) AS monthExpense');
+			$this->db->from('pengeluaran');
+
+			if ($outlet_id) {
+				$this->db->where('outlet_id', $outlet_id);
+			}
+
+			// $this->db->where('payment_method', 'cash');
+			$this->db->where_in('status', [1, 2]); // pengajuan & approve
+			$this->db->where('tanggal_transaksi >=', $start);
+			$this->db->where('tanggal_transaksi <=', $end);
+
+			$expRow = $this->db->get()->row();
+			$monthExpense = (float)($expRow->monthExpense ?? 0);
+
+			// ==========================
+			// 3. Return
+			// ==========================
+			return [
+				'monthRevenue'  => $monthRevenue,
+				'monthCustomer' => $monthCustomer,
+				'monthExpense'  => $monthExpense
+			];
+		}
 
 		public function getTodayTransactions($outlet_id = null)
 		{
@@ -303,5 +357,5 @@
 			$query = $this->db->get();
 			return $query->result_array();
 		}
-		
+
 	}
