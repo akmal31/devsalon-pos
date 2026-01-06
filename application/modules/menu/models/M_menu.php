@@ -24,15 +24,19 @@ class M_menu extends CI_Model {
         return $this->db->get()->result_array();
     }
 
-    // Cari menu_id berdasarkan URI segment (nama module/menu)
-    public function getSubMenuId($menu_list, $uri_segment) {
+    public function getSubMenuId($menu_list, $uri_segment)
+    {
         foreach ($menu_list as $m) {
-            if (strtolower($m['module_name']) == strtolower($uri_segment)) {
+            if (
+                strtolower($m['module_name'] ?? '') ===
+                strtolower($uri_segment ?? '')
+            ) {
                 return $m['id'];
             }
         }
         return null;
     }
+
 
     // Cek apakah group punya akses ke menu_id ini
     public function getAccessPrivellege($group_id, $menu_id) {
