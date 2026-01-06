@@ -62,6 +62,45 @@
                 </a>
             </li>
         </ul>
+        <?php if ($user_profile['USER_GROUP_ID'] == 1) { ?>
+        <div class="listview-title mt-1">Outlet</div>
+        <ul class="listview image-listview text inset">
+            <li>
+                <a href="<?php echo base_url(); ?>outlet" class="item">
+                    <div class="in">
+                        <div>List Outlet</div>
+                    </div>
+                </a>
+            </li>
+        </ul>
+        <div class="listview-title mt-1">Karyawan</div>
+        <ul class="listview image-listview text inset">
+            <li>
+                <a href="<?php echo base_url(); ?>employee" class="item">
+                    <div class="in">
+                        <div>List Karyawan</div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="<?php echo base_url(); ?>payroll" class="item">
+                    <div class="in">
+                        <div>Penggajian</div>
+                    </div>
+                </a>
+            </li>
+        </ul>
+        <div class="listview-title mt-1">Customer</div>
+        <ul class="listview image-listview text inset">
+            <li>
+                <a href="<?php echo base_url(); ?>customer" class="item">
+                    <div class="in">
+                        <div>List Customer</div>
+                    </div>
+                </a>
+            </li>
+        </ul>
+        <?php } ?>
 
         <div class="listview-title mt-1">Account</div>
         <ul class="listview image-listview text mb-2 inset">
