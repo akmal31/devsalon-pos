@@ -98,18 +98,15 @@
 		public function delete($id)
 		{
 			$result = $this->M_transaction->delete_transaction($id);
-
-			if ($result) {
-				echo json_encode([
-					'status' => true,
-					'message' => 'Transaksi berhasil dihapus'
-				]);
-			} else {
-				echo json_encode([
-					'status' => false,
-					'message' => 'Gagal menghapus transaksi'
-				]);
-			}
+			$response = [
+				'status'  => (bool) $result,
+				'message' => $result
+					? 'Transaksi berhasil dihapus'
+					: 'Gagal menghapus transaksi'
+			];
+			$this->output
+				->set_content_type('application/json')
+				->set_output(json_encode($response));
 		}
 
 	}

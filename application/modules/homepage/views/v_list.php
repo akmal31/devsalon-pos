@@ -117,7 +117,7 @@
         <!-- * Absensi -->
 
         <!-- Transactions -->
-        <div class="section mt-4">
+        <div class="section mt-4 mb-2">
             <div class="section-heading">
                 <h2 class="title">Transaksi Hari ini</h2>
                 <a href="<?=base_url().'transaction';?>" class="link">View All</a>

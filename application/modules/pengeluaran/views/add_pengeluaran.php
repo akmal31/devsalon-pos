@@ -66,7 +66,7 @@
                         <div class="form-group boxed">
                             <div class="input-wrapper">
                                 <label class="label" for="price4b">Nominal</label>
-                                <input type="number" class="form-control" id="price4b" placeholder="Masukkan Nominal Harga">
+                                <input type="text" class="form-control" id="price4b" inputmode="numeric" placeholder="Masukkan Nominal Harga">
                                 <i class="clear-input">
                                     <ion-icon name="close-circle"></ion-icon>
                                 </i>
@@ -100,38 +100,41 @@
         // Auto format ribuan (input text)
         const priceInput = document.getElementById("price4b");
         priceInput.addEventListener("input", function () {
-            let angka = this.value.replace(/\./g, "").replace(/[^0-9]/g, "");
-            this.value = angka ? angka.replace(/\B(?=(\d{3})+(?!\d))/g, ".") : "";
+            let cursor = this.selectionStart;
+            let raw = this.value.replace(/\D/g, "");
+            if (!raw) {
+                this.value = "";
+                return;
+            }
+            this.value = raw.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            this.setSelectionRange(cursor, cursor);
         });
+
 
         // Submit data
         document.getElementById("btnCheckout").addEventListener("click", async function (e) {
             e.preventDefault();
-
-            let barang = document.getElementById("text4b").value.trim();
+            let barang  = document.getElementById("text4b").value.trim();
             let tanggal = document.getElementById("date4b").value;
-            let metode = document.getElementById("select4b").value;
-            let tipe = document.getElementById("select4c").value;
-            let nominal = document.getElementById("price4b").value.replace(/\./g, "");
+            let metode  = document.getElementById("select4b").value;
+            let tipe    = document.getElementById("select4c").value;
+            let nominal = document.getElementById("price4b").value.replace(/\./g, "").trim();
 
-            if (!barang || !tanggal || !metode || !nominal) {
+            if (!barang || !tanggal || !metode) {
                 alert("Semua field wajib diisi!");
+                return;
+            }
+
+            if (isNaN(nominal) || Number(nominal) <= 0) {
+                alert("Nominal tidak valid");
                 return;
             }
 
             try {
                 const response = await fetch('<?= base_url("pengeluaran/save") ?>', {
                     method: "POST",
-                    headers: {
-                        "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
-                    },
-                    body: new URLSearchParams({
-                        barang: barang,
-                        tanggal: tanggal,
-                        metode: metode,
-                        tipe: tipe,
-                        nominal: nominal
-                    })
+                    headers: {"Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"},
+                    body: new URLSearchParams({barang,tanggal,metode,tipe,nominal})
                 });
 
                 const res = await response.json();
@@ -144,7 +147,7 @@
                 }
             } catch (err) {
                 console.error(err);
-                alert("Terjadi kesalahan server: " + err.message);
+                alert("Terjadi kesalahan server");
             }
         });
     });
